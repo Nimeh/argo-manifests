@@ -16,7 +16,7 @@ spec:
         app: solar-system
     spec:
       containers:
-      - image: nginx
+      - image: 264473175039.dkr.ecr.us-east-1.amazonaws.com/test:s24
         name: solar-system
         ports: 
         - containerPort: 80
