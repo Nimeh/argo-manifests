@@ -16,7 +16,7 @@ spec:
         app: solar-system
     spec:
       containers:
-      - image: 264473175039.dkr.ecr.us-east-1.amazonaws.com/test:latest
+      - image: 264473175039.dkr.ecr.us-east-1.amazonaws.com/test:30
         name: solar-system
         ports: 
         - containerPort: 80
