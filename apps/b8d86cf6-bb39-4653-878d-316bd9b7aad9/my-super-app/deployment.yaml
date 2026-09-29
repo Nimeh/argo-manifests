@@ -1,0 +1,54 @@
+# Managed by Keel (GitOps) — ArgoCD in cluster b8d86cf6-bb39-4653-878d-316bd9b7aad9 applies this file.
+# Edit it here, or deploy / roll back from the console (which commits here).
+# Secrets are never stored in Git: app-secrets and keel-registry-pull are
+# created in the namespace by Keel, from Vault.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: keel
+    app.kubernetes.io/name: my-super-app
+  name: my-super-app
+  namespace: app-my-super-app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: my-super-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: keel
+        app.kubernetes.io/name: my-super-app
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - envFrom:
+        - secretRef:
+            name: app-secrets
+            optional: true
+        image: registry.nimehala.com/tenants/1a04a184/my-super-app:a47f1fa6
+        name: my-super-app
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          tcpSocket:
+            port: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      imagePullSecrets:
+      - name: keel-registry-pull
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
