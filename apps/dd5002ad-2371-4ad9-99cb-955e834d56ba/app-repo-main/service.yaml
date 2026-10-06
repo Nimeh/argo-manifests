@@ -1,0 +1,18 @@
+# Managed by Keel (GitOps) — ArgoCD in cluster dd5002ad-2371-4ad9-99cb-955e834d56ba applies this file.
+# Edit it here, or deploy / roll back from the console (which commits here).
+# Secrets are never stored in Git: app-secrets and keel-registry-pull are
+# created in the namespace by Keel, from Vault.
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: keel
+    app.kubernetes.io/name: app-repo-main
+  name: app-repo-main
+  namespace: app-app-repo-main
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/name: app-repo-main
